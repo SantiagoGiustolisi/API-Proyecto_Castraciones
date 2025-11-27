@@ -57,12 +57,18 @@ app.get("/turnos", (req, res) => {
   }
 
   const disponibles = horarios.filter(h =>
-    h.tipo === tipo &&
-    h.centro === Number(centro) &&
-    h.cupos_ocupados < h.cupos_totales
-  );
+  h.tipo === tipo &&
+  h.centro === Number(centro) &&
+  h.cupos_ocupados < h.cupos_totales
+);
 
-  res.json({ horarios_disponibles: disponibles });
+// armamos un texto simple con las horas
+const horarios_texto = disponibles.map(h => h.hora).join(", ");
+
+res.json({
+  horarios_disponibles: disponibles,
+  horarios_texto
+});
 });
 
 // ------------------------
