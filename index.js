@@ -5,6 +5,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
 // ----------------------------------
 // FUNCIÓN PARA FORMATEAR EL TIPO
 // ----------------------------------
@@ -21,10 +22,10 @@ function formatearTipo(tipo) {
   return estadoTexto ? `${especie} ${estadoTexto}` : especie;
 }
 
-// ----------------------------------
-// DATOS EN MEMORIA (SIN BASE DE DATOS)
-// ----------------------------------
 
+// ----------------------------------
+// TURNOS DISPONIBLES (SIN BD)
+// ----------------------------------
 let horarios = [
   // Centro 1
   { id: 1, hora: "07:15", tipo: "caninos_preñadas", cupos_totales: 4, centro: 1 },
@@ -60,13 +61,14 @@ let horarios = [
   { id: 24, hora: "16:30", tipo: "felinos", cupos_totales: 4, centro: 3 }
 ];
 
-// Lista de reservas
+
+// LISTA DE RESERVAS (runtime)
 let reservas = [];
 
 
-// ------------------------
-// ENDPOINT: LISTAR TURNOS POR FECHA
-// ------------------------
+// ----------------------------------
+// ENDPOINT: TURNOS DISPONIBLES
+// ----------------------------------
 app.get("/turnos", (req, res) => {
   const { tipo, centro, fecha } = req.query;
 
@@ -95,9 +97,9 @@ app.get("/turnos", (req, res) => {
 });
 
 
-// ------------------------
-// ENDPOINT: BUSCAR ID AUTOMÁTICAMENTE
-// ------------------------
+// ----------------------------------
+// ENDPOINT: BUSCAR ID POR HORA + TIPO + CENTRO
+// ----------------------------------
 app.get("/buscar-id", (req, res) => {
   const { hora, tipo, centro } = req.query;
 
@@ -119,9 +121,9 @@ app.get("/buscar-id", (req, res) => {
 });
 
 
-// ------------------------
+// ----------------------------------
 // ENDPOINT: RESERVAR TURNO
-// ------------------------
+// ----------------------------------
 app.post("/reservar", (req, res) => {
   const { horario_id, nombre, telefono, fecha } = req.body;
 
@@ -130,12 +132,10 @@ app.post("/reservar", (req, res) => {
   }
 
   const turno = horarios.find(h => h.id === horario_id);
-
   if (!turno) {
     return res.status(404).json({ error: "El turno no existe" });
   }
 
-  // Contar reservas SOLO de ESA FECHA
   const ocupados = reservas.filter(r =>
     r.horario_id === horario_id && r.fecha === fecha
   ).length;
@@ -170,17 +170,17 @@ app.post("/reservar", (req, res) => {
 });
 
 
-// ------------------------
-// RUTA DE PRUEBA
-// ------------------------
+// ----------------------------------
+// STATUS CHECK
+// ----------------------------------
 app.get("/", (req, res) => {
   res.send("API de Castraciones funcionando correctamente ✔");
 });
 
 
-// ------------------------
-// LEVANTAR SERVIDOR
-// ------------------------
+// ----------------------------------
+// SERVER
+// ----------------------------------
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
