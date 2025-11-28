@@ -6,6 +6,15 @@ app.use(cors());
 app.use(express.json());
 
 // ----------------------------------
+// FUNCIÓN PARA FORMATEAR EL TIPO
+// ----------------------------------
+function formatearTipo(tipo) {
+  return tipo
+    .replace("_", " ")
+    .replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// ----------------------------------
 // DATOS EN MEMORIA (SIN BASE DE DATOS)
 // ----------------------------------
 
@@ -62,10 +71,16 @@ app.get("/turnos", (req, res) => {
     h.cupos_ocupados < h.cupos_totales
   );
 
+  // Agregar tipo formateado en la respuesta
+  const disponiblesFormateados = disponibles.map(h => ({
+    ...h,
+    tipo_formateado: formatearTipo(h.tipo)
+  }));
+
   const horarios_texto = disponibles.map(h => h.hora).join(", ");
 
   res.json({
-    horarios_disponibles: disponibles,
+    horarios_disponibles: disponiblesFormateados,
     horarios_texto
   });
 });
@@ -132,7 +147,7 @@ app.post("/reservar", (req, res) => {
   res.json({
     mensaje: "Turno reservado con éxito",
     hora: turno.hora,
-    tipo: turno.tipo,
+    tipo: formatearTipo(turno.tipo),  // ← YA VIENE FORMATEADO
     centro: turno.centro,
     codigo
   });
