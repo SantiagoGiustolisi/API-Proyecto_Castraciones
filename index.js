@@ -9,10 +9,22 @@ app.use(express.json());
 // FUNCIÓN PARA FORMATEAR EL TIPO
 // ----------------------------------
 function formatearTipo(tipo) {
-  return tipo
-    .replace("_", " ")
-    .replace(/\b\w/g, c => c.toUpperCase());
+  // Separar tipo base y si es preñada
+  const [base, estado] = tipo.split("_");
+
+  // Convertir a singular y nombre real
+  let especie = "";
+  if (base === "caninos") especie = "Perro";
+  if (base === "felinos") especie = "Gato";
+
+  // Estado
+  let estadoTexto = "";
+  if (estado === "preñadas") estadoTexto = "preñada";
+
+  // Construcción final
+  return estadoTexto ? `${especie} ${estadoTexto}` : especie;
 }
+
 
 // ----------------------------------
 // DATOS EN MEMORIA (SIN BASE DE DATOS)
