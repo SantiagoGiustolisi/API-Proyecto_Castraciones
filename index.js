@@ -9,22 +9,17 @@ app.use(express.json());
 // FUNCIÓN PARA FORMATEAR EL TIPO
 // ----------------------------------
 function formatearTipo(tipo) {
-  // Separar tipo base y si es preñada
   const [base, estado] = tipo.split("_");
 
-  // Convertir a singular y nombre real
   let especie = "";
   if (base === "caninos") especie = "Perro";
   if (base === "felinos") especie = "Gato";
 
-  // Estado
   let estadoTexto = "";
   if (estado === "preñadas") estadoTexto = "preñada";
 
-  // Construcción final
   return estadoTexto ? `${especie} ${estadoTexto}` : especie;
 }
-
 
 // ----------------------------------
 // DATOS EN MEMORIA (SIN BASE DE DATOS)
@@ -32,70 +27,73 @@ function formatearTipo(tipo) {
 
 let horarios = [
   // Centro 1
-  { id: 1, hora: "07:15", tipo: "caninos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
-  { id: 2, hora: "08:15", tipo: "caninos", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
-  { id: 3, hora: "09:45", tipo: "felinos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
-  { id: 4, hora: "10:45", tipo: "felinos", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
+  { id: 1, hora: "07:15", tipo: "caninos_preñadas", cupos_totales: 4, centro: 1 },
+  { id: 2, hora: "08:15", tipo: "caninos", cupos_totales: 4, centro: 1 },
+  { id: 3, hora: "09:45", tipo: "felinos_preñadas", cupos_totales: 4, centro: 1 },
+  { id: 4, hora: "10:45", tipo: "felinos", cupos_totales: 4, centro: 1 },
 
-  { id: 5, hora: "13:15", tipo: "caninos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
-  { id: 6, hora: "14:15", tipo: "caninos", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
-  { id: 7, hora: "15:30", tipo: "felinos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
-  { id: 8, hora: "16:30", tipo: "felinos", cupos_totales: 4, cupos_ocupados: 0, centro: 1 },
+  { id: 5, hora: "13:15", tipo: "caninos_preñadas", cupos_totales: 4, centro: 1 },
+  { id: 6, hora: "14:15", tipo: "caninos", cupos_totales: 4, centro: 1 },
+  { id: 7, hora: "15:30", tipo: "felinos_preñadas", cupos_totales: 4, centro: 1 },
+  { id: 8, hora: "16:30", tipo: "felinos", cupos_totales: 4, centro: 1 },
 
   // Centro 2
-  { id: 9, hora: "07:15", tipo: "caninos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
-  { id: 10, hora: "08:15", tipo: "caninos", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
-  { id: 11, hora: "09:45", tipo: "felinos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
-  { id: 12, hora: "10:45", tipo: "felinos", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
+  { id: 9, hora: "07:15", tipo: "caninos_preñadas", cupos_totales: 4, centro: 2 },
+  { id: 10, hora: "08:15", tipo: "caninos", cupos_totales: 4, centro: 2 },
+  { id: 11, hora: "09:45", tipo: "felinos_preñadas", cupos_totales: 4, centro: 2 },
+  { id: 12, hora: "10:45", tipo: "felinos", cupos_totales: 4, centro: 2 },
 
-  { id: 13, hora: "13:15", tipo: "caninos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
-  { id: 14, hora: "14:15", tipo: "caninos", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
-  { id: 15, hora: "15:30", tipo: "felinos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
-  { id: 16, hora: "16:30", tipo: "felinos", cupos_totales: 4, cupos_ocupados: 0, centro: 2 },
+  { id: 13, hora: "13:15", tipo: "caninos_preñadas", cupos_totales: 4, centro: 2 },
+  { id: 14, hora: "14:15", tipo: "caninos", cupos_totales: 4, centro: 2 },
+  { id: 15, hora: "15:30", tipo: "felinos_preñadas", cupos_totales: 4, centro: 2 },
+  { id: 16, hora: "16:30", tipo: "felinos", cupos_totales: 4, centro: 2 },
 
   // Centro 3
-  { id: 17, hora: "07:15", tipo: "caninos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 3 },
-  { id: 18, hora: "08:15", tipo: "caninos", cupos_totales: 4, cupos_ocupados: 0, centro: 3 },
-  { id: 19, hora: "09:45", tipo: "felinos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 3 },
-  { id: 20, hora: "10:45", tipo: "felinos", cupos_totales: 4, cupos_ocupados: 0, centro: 3 },
+  { id: 17, hora: "07:15", tipo: "caninos_preñadas", cupos_totales: 4, centro: 3 },
+  { id: 18, hora: "08:15", tipo: "caninos", cupos_totales: 4, centro: 3 },
+  { id: 19, hora: "09:45", tipo: "felinos_preñadas", cupos_totales: 4, centro: 3 },
+  { id: 20, hora: "10:45", tipo: "felinos", cupos_totales: 4, centro: 3 },
 
-  { id: 21, hora: "13:15", tipo: "caninos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 3 },
-  { id: 22, hora: "14:15", tipo: "caninos", cupos_totales: 4, cupos_ocupados: 0, centro: 3 },
-  { id: 23, hora: "15:30", tipo: "felinos_preñadas", cupos_totales: 4, cupos_ocupados: 0, centro: 3 },
-  { id: 24, hora: "16:30", tipo: "felinos", cupos_totales: 4, cupos_ocupados: 0, centro: 3 }
+  { id: 21, hora: "13:15", tipo: "caninos_preñadas", cupos_totales: 4, centro: 3 },
+  { id: 22, hora: "14:15", tipo: "caninos", cupos_totales: 4, centro: 3 },
+  { id: 23, hora: "15:30", tipo: "felinos_preñadas", cupos_totales: 4, centro: 3 },
+  { id: 24, hora: "16:30", tipo: "felinos", cupos_totales: 4, centro: 3 }
 ];
 
+// Lista de reservas
 let reservas = [];
 
+
 // ------------------------
-// ENDPOINT: LISTAR TURNOS
+// ENDPOINT: LISTAR TURNOS POR FECHA
 // ------------------------
 app.get("/turnos", (req, res) => {
-  const { tipo, centro } = req.query;
+  const { tipo, centro, fecha } = req.query;
 
-  if (!tipo || !centro) {
-    return res.status(400).json({ error: "Faltan parámetros: tipo y centro" });
+  if (!tipo || !centro || !fecha) {
+    return res.status(400).json({ error: "Faltan parámetros: tipo, centro y fecha" });
   }
 
-  const disponibles = horarios.filter(h =>
-    h.tipo === tipo &&
-    h.centro === Number(centro) &&
-    h.cupos_ocupados < h.cupos_totales
-  );
+  const disponibles = horarios.filter(h => {
+    if (h.tipo !== tipo) return false;
+    if (h.centro !== Number(centro)) return false;
 
-  // Agregar tipo formateado en la respuesta
-  const disponiblesFormateados = disponibles.map(h => ({
-    ...h,
-    tipo_formateado: formatearTipo(h.tipo)
-  }));
+    const ocupados = reservas.filter(r =>
+      r.horario_id === h.id && r.fecha === fecha
+    ).length;
 
-  const horarios_texto = disponibles.map(h => h.hora).join(", ");
+    return ocupados < h.cupos_totales;
+  });
 
   res.json({
-    horarios_disponibles: disponiblesFormateados,
-    horarios_texto
+    horarios_disponibles: disponibles.map(h => ({
+      ...h,
+      tipo_formateado: formatearTipo(h.tipo)
+    })),
+    horarios_texto: disponibles.map(h => h.hora).join(", ")
   });
 });
+
 
 // ------------------------
 // ENDPOINT: BUSCAR ID AUTOMÁTICAMENTE
@@ -120,29 +118,33 @@ app.get("/buscar-id", (req, res) => {
   res.json({ id: turno.id });
 });
 
+
 // ------------------------
 // ENDPOINT: RESERVAR TURNO
 // ------------------------
 app.post("/reservar", (req, res) => {
-  const { horario_id, nombre, telefono } = req.body;
+  const { horario_id, nombre, telefono, fecha } = req.body;
 
-  if (!horario_id || !nombre || !telefono) {
+  if (!horario_id || !nombre || !telefono || !fecha) {
     return res.status(400).json({ error: "Faltan datos" });
   }
 
-  let turno = horarios.find(h => h.id === horario_id);
+  const turno = horarios.find(h => h.id === horario_id);
 
   if (!turno) {
     return res.status(404).json({ error: "El turno no existe" });
   }
 
-  if (turno.cupos_ocupados >= turno.cupos_totales) {
+  // Contar reservas SOLO de ESA FECHA
+  const ocupados = reservas.filter(r =>
+    r.horario_id === horario_id && r.fecha === fecha
+  ).length;
+
+  if (ocupados >= turno.cupos_totales) {
     return res.status(400).json({
-      error: "El horario llenó sus cupos"
+      error: `El horario ${turno.hora} está lleno para la fecha ${fecha}.`
     });
   }
-
-  turno.cupos_ocupados++;
 
   const codigo = "CST-" + Math.floor(10000 + Math.random() * 90000);
 
@@ -150,6 +152,7 @@ app.post("/reservar", (req, res) => {
     horario_id,
     nombre,
     telefono,
+    fecha,
     hora: turno.hora,
     tipo: turno.tipo,
     centro: turno.centro,
@@ -158,28 +161,14 @@ app.post("/reservar", (req, res) => {
 
   res.json({
     mensaje: "Turno reservado con éxito",
+    fecha,
     hora: turno.hora,
-    tipo: formatearTipo(turno.tipo),  // ← YA VIENE FORMATEADO
+    tipo: formatearTipo(turno.tipo),
     centro: turno.centro,
     codigo
   });
 });
 
-// ----------------------------------
-// RESET AUTOMÁTICO DIARIO DE CUPOS
-// ----------------------------------
-
-function resetCuposDiarios() {
-  horarios.forEach(h => h.cupos_ocupados = 0);
-  console.log("🔄 Cupos reiniciados automáticamente a las 00:00");
-}
-
-setInterval(() => {
-  const ahora = new Date();
-  if (ahora.getHours() === 0 && ahora.getMinutes() === 0) {
-    resetCuposDiarios();
-  }
-}, 60000);
 
 // ------------------------
 // RUTA DE PRUEBA
@@ -187,6 +176,7 @@ setInterval(() => {
 app.get("/", (req, res) => {
   res.send("API de Castraciones funcionando correctamente ✔");
 });
+
 
 // ------------------------
 // LEVANTAR SERVIDOR
