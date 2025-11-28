@@ -57,18 +57,40 @@ app.get("/turnos", (req, res) => {
   }
 
   const disponibles = horarios.filter(h =>
-  h.tipo === tipo &&
-  h.centro === Number(centro) &&
-  h.cupos_ocupados < h.cupos_totales
-);
+    h.tipo === tipo &&
+    h.centro === Number(centro) &&
+    h.cupos_ocupados < h.cupos_totales
+  );
 
-// armamos un texto simple con las horas
-const horarios_texto = disponibles.map(h => h.hora).join(", ");
+  const horarios_texto = disponibles.map(h => h.hora).join(", ");
 
-res.json({
-  horarios_disponibles: disponibles,
-  horarios_texto
+  res.json({
+    horarios_disponibles: disponibles,
+    horarios_texto
+  });
 });
+
+// ------------------------
+// ENDPOINT: BUSCAR ID AUTOMÁTICAMENTE
+// ------------------------
+app.get("/buscar-id", (req, res) => {
+  const { hora, tipo, centro } = req.query;
+
+  if (!hora || !tipo || !centro) {
+    return res.status(400).json({ error: "Faltan parámetros: hora, tipo, centro" });
+  }
+
+  const turno = horarios.find(h =>
+    h.hora === hora &&
+    h.tipo === tipo &&
+    h.centro === Number(centro)
+  );
+
+  if (!turno) {
+    return res.status(404).json({ error: "No existe un turno con esos datos" });
+  }
+
+  res.json({ id: turno.id });
 });
 
 // ------------------------
@@ -87,14 +109,12 @@ app.post("/reservar", (req, res) => {
     return res.status(404).json({ error: "El turno no existe" });
   }
 
-  // Si no hay cupos → mensaje personalizado
   if (turno.cupos_ocupados >= turno.cupos_totales) {
     return res.status(400).json({
       error: "El horario llenó sus cupos"
     });
   }
 
-  // Reservar cupo
   turno.cupos_ocupados++;
 
   const codigo = "CST-" + Math.floor(10000 + Math.random() * 90000);
